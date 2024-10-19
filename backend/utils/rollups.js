@@ -17,7 +17,9 @@ async function calculateDailySummary(city) {
           avgTemp: { $avg: '$temp' },
           maxTemp: { $max: '$temp' },
           minTemp: { $min: '$temp' },
-          dominantWeather: { $first: '$main' }, // Can enhance this for "dominance" criteria
+          dominantWeather: { $first: '$main' },
+          avgHumidity: { $avg: '$humidity' },
+          avgWindSpeed: { $avg: '$wind_speed' },
           count: { $sum: 1 }
         }
       }
@@ -26,19 +28,20 @@ async function calculateDailySummary(city) {
     if (dailyData.length > 0) {
       console.log(`Daily summary for ${city}:`, dailyData[0]);
       
-      // Store the daily summary in the DailySummary collection
       const summary = new DailySummary({
         city: city,
         date: today,
         avgTemp: dailyData[0].avgTemp,
         maxTemp: dailyData[0].maxTemp,
         minTemp: dailyData[0].minTemp,
-        dominantWeather: dailyData[0].dominantWeather
+        dominantWeather: dailyData[0].dominantWeather,
+        avgHumidity: dailyData[0].avgHumidity,
+        avgWindSpeed: dailyData[0].avgWindSpeed
       });
       await summary.save();
     }
   } catch (error) {
-    console.error("Error calculating daily summary:", error.message);
+    console.error(`Error calculating daily summary for ${city}:`, error.message);
   }
 }
 

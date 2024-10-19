@@ -19,6 +19,14 @@ const WeatherSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  humidity: { // New field for humidity
+    type: Number,
+    required: true
+  },
+  wind_speed: { // New field for wind speed
+    type: Number,
+    required: true
+  },
   dt: {
     type: Date,
     required: true

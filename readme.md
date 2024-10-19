@@ -15,8 +15,7 @@ Before running the application, ensure you have the following installed on your 
 ### 1. Clone the Repository
 Clone the repository to your local machine using Git:
 ```bash
-git clone <repository-url>
-cd <repository-directory>
+git clone https://github.com/Sanjay-Balam/Real-Time-Data-Processing-System-for-weather.git
 ```
 
 ### 2. Install Dependencies

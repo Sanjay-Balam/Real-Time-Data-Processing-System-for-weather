@@ -2,8 +2,8 @@
 
 // Configurable thresholds (can be modified for each city)
 const thresholds = {
-    temperature: 35, // Example threshold for temperature (Celsius)
-    consecutiveUpdates: 2 // Number of consecutive updates to check
+    temperature: process.env.TEMPERATURE_THRESHOLD || 35, // Example threshold for temperature (Celsius)
+    consecutiveUpdates: process.env.CONSECUTIVE_UPDATES || 2 // Number of consecutive updates to check
   };
   
   // Store a cache to track consecutive violations

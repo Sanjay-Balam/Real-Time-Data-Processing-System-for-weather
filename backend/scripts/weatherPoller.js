@@ -5,6 +5,7 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('../config/db');
 const { saveWeatherData } = require('../controllers/weatherController');
+const { getDailySummaries } = require('../utils/visualizations'); // Import the function to get daily summaries
 require('dotenv').config();
 
 const app = express();
@@ -53,10 +54,17 @@ async function fetchAllCitiesWeather() {
   return allWeatherData; // Return all collected weather data
 }
 
+// Function to fetch and save weather data for all cities
+const updateWeatherData = async () => {
+  console.log("Fetching weather data for all cities...");
+  await fetchAllCitiesWeather(); // Fetch and save weather data
+};
 
+// Set an interval to update weather data every 5 minutes (300000 ms)
+setInterval(updateWeatherData, 300000); // 300000 ms = 5 minutes
 
-// Variable to store the interval ID
-let weatherUpdateInterval;
+// Initial fetch to populate data when the server starts
+updateWeatherData();
 
 // Updated GET endpoint to fetch weather data for all cities continuously
 app.get('/api/weather', async (req, res) => {
@@ -76,13 +84,25 @@ app.get('/api/weather', async (req, res) => {
   await sendWeatherData();
 
   // Set interval to send updated weather data every 10 seconds
-  const intervalId = setInterval(sendWeatherData, 300000); // 10000 ms = 10 seconds
+  const intervalId = setInterval(sendWeatherData, 300000); // 5min
 
   // Clear the interval and end the response when the client disconnects
   req.on('close', () => {
     clearInterval(intervalId);
     res.end(); // End the response
   });
+});
+
+// New GET endpoint to visualize daily summaries
+app.get('/api/visualize', async (req, res) => {
+  const city = req.query.city; // Get city from query parameters
+  try {
+    const summaries = await getDailySummaries(city); // Fetch daily summaries for the specified city
+    res.json(summaries); // Send the summaries as a JSON response
+  } catch (error) {
+    console.error('Error fetching daily summaries:', error);
+    res.status(500).send('Error fetching daily summaries'); // Send error response
+  }
 });
 
 app.get('/', (req, res) => {
@@ -93,5 +113,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-

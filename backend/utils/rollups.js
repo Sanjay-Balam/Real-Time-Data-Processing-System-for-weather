@@ -1,6 +1,7 @@
 // utils/rollups.js
 
-const Weather = require('../models/weatherModel');
+const Weather = require('../models/weatherModel'); // Import the Weather model
+const DailySummary = require("../models/dailySummaryModel")
 
 // Calculate daily rollups for a specific city
 async function calculateDailySummary(city) {
@@ -24,7 +25,17 @@ async function calculateDailySummary(city) {
 
     if (dailyData.length > 0) {
       console.log(`Daily summary for ${city}:`, dailyData[0]);
-      // Store or update the daily summary in a separate collection if needed
+      
+      // Store the daily summary in the DailySummary collection
+      const summary = new DailySummary({
+        city: city,
+        date: today,
+        avgTemp: dailyData[0].avgTemp,
+        maxTemp: dailyData[0].maxTemp,
+        minTemp: dailyData[0].minTemp,
+        dominantWeather: dailyData[0].dominantWeather
+      });
+      await summary.save();
     }
   } catch (error) {
     console.error("Error calculating daily summary:", error.message);

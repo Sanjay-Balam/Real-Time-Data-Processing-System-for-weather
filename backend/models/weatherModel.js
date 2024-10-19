@@ -22,7 +22,7 @@ const WeatherSchema = new mongoose.Schema({
   dt: {
     type: Date,
     required: true
-  }
+  },
 });
 
 module.exports = mongoose.model('Weather', WeatherSchema);

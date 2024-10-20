@@ -36,13 +36,8 @@ PORT=5000
 - Replace `<your_mongodb_connection_string>` with your MongoDB connection string.
 - Replace `<your_openweathermap_api_key>` with your OpenWeatherMap API key.
 
-### 4. Start the MongoDB Service
-If you are using a local MongoDB instance, ensure that the MongoDB service is running. You can start it using:
-```bash
-mongod
-```
 
-### 5. Run the Application
+### 4. Run the Application
 ```js
 npm start
 ```

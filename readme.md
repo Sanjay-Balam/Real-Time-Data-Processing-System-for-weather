@@ -26,7 +26,7 @@ npm install
 
 ### 3. Configure Environment Variables
 Create a `.env` file in the root of your project directory and add the following variables:
-```
+```js
 MONGO_URI=<your_mongodb_connection_string>
 OPENWEATHER_API_KEY=<your_openweathermap_api_key>
 TEMPERATURE_THRESHOLD=35
